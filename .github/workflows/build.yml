@@ -35,7 +35,7 @@ jobs:
         run: |
           $name = if ($env:GITHUB_REF_TYPE -eq 'tag') { $env:GITHUB_REF_NAME } else { "dev-$($env:GITHUB_SHA.Substring(0,7))" }
           New-Item -ItemType Directory -Force dist/HaloModMenu | Out-Null
-          Copy-Item build/Release/version.dll, install.ps1, README.md dist/HaloModMenu/
+          Copy-Item build/Release/version.dll, install.ps1, uninstall.ps1, README.md dist/HaloModMenu/
           $hash = (Get-FileHash dist/HaloModMenu/version.dll -Algorithm SHA256).Hash.ToLower()
           "$hash  version.dll" | Set-Content -Encoding ascii dist/HaloModMenu/SHA256SUMS.txt
           Compress-Archive -Path dist/HaloModMenu/* -DestinationPath "dist/HaloModMenu-$name.zip"

@@ -1,17 +1,30 @@
-# Installs (or removes) HaloModMenu in MCC's win64 folder as version.dll.
+# Installs HaloModMenu in MCC's win64 folder as version.dll.
 #
-#   .\install.ps1              copy version.dll into the game (found through Steam)
-#   .\install.ps1 -Uninstall   remove it (do this before playing with anti-cheat on)
+#   Right-click this file and choose "Run with PowerShell"
 #   .\install.ps1 -GameDir "<MCC>\mcc\binaries\win64"   if MCC isn't found automatically
+#   .\install.ps1 -Uninstall   same as running uninstall.ps1 (do this before playing with anti-cheat on)
 #
 # Launch MCC with "Play Halo: MCC (Anti-Cheat Disabled)" for the mod to load.
 
 param(
     [switch]$Uninstall,
-    [string]$GameDir
+    [string]$GameDir,
+    [switch]$NoPause
 )
 
 $ErrorActionPreference = 'Stop'
+
+# Removing is uninstall.ps1's job (it checks the file really is HaloModMenu).
+if ($Uninstall) {
+    & (Join-Path $PSScriptRoot 'uninstall.ps1') -GameDir $GameDir -NoPause:$NoPause
+    exit $LASTEXITCODE
+}
+
+# Keeps the window open when the script was started by right-click > Run with PowerShell.
+function Finish([int]$code) {
+    if (-not $NoPause) { try { Read-Host 'Press Enter to close' | Out-Null } catch {} }
+    exit $code
+}
 
 # Finds MCC through Steam's install path (registry) and every library in libraryfolders.vdf.
 function Find-GameDir {
@@ -31,42 +44,40 @@ function Find-GameDir {
     return $null
 }
 
-if (-not $GameDir) { $GameDir = Find-GameDir }
-if (-not $GameDir) {
-    Write-Host 'Could not find MCC through Steam. Pass -GameDir "<MCC>\mcc\binaries\win64".' -ForegroundColor Yellow
-    exit 1
-}
-
-# Release zips have version.dll next to this script; a source checkout has it in build\Release.
-$Target   = Join-Path $GameDir 'version.dll'
-$BuildDll = @((Join-Path $PSScriptRoot 'version.dll'), (Join-Path $PSScriptRoot 'build\Release\version.dll')) |
-    Where-Object { Test-Path $_ } | Select-Object -First 1
-
-if (-not (Test-Path (Join-Path $GameDir 'MCC-Win64-Shipping.exe'))) {
-    Write-Host "MCC not found at $GameDir. Pass -GameDir." -ForegroundColor Yellow
-    exit 1
-}
-
-if (Get-Process -Name 'MCC-Win64-Shipping*' -ErrorAction SilentlyContinue) {
-    Write-Host 'Halo MCC is running. Close it first.' -ForegroundColor Yellow
-    exit 1
-}
-
-if ($Uninstall) {
-    if (Test-Path $Target) {
-        Remove-Item $Target
-        Write-Host 'HaloModMenu removed. Safe to launch with anti-cheat.' -ForegroundColor Green
-    } else {
-        Write-Host 'HaloModMenu was not installed.'
+try {
+    if (-not $GameDir) { $GameDir = Find-GameDir }
+    if (-not $GameDir) {
+        Write-Host 'Could not find MCC through Steam. Run this again with -GameDir "<MCC>\mcc\binaries\win64".' -ForegroundColor Yellow
+        Finish 1
     }
-    exit 0
-}
 
-if (-not $BuildDll) {
-    Write-Host "No version.dll found. Run build.bat first (or run this from an unzipped release)." -ForegroundColor Yellow
-    exit 1
-}
+    # Release zips have version.dll next to this script; a source checkout has it in build\Release.
+    $Target   = Join-Path $GameDir 'version.dll'
+    $BuildDll = @((Join-Path $PSScriptRoot 'version.dll'), (Join-Path $PSScriptRoot 'build\Release\version.dll')) |
+        Where-Object { Test-Path $_ } | Select-Object -First 1
 
-Copy-Item $BuildDll $Target -Force
-Write-Host "Installed to $Target" -ForegroundColor Green
-Write-Host 'Launch MCC with anti-cheat DISABLED. Log: HaloModMenu.log in the same folder.'
+    if (-not (Test-Path (Join-Path $GameDir 'MCC-Win64-Shipping.exe'))) {
+        Write-Host "MCC not found at $GameDir. Pass -GameDir." -ForegroundColor Yellow
+        Finish 1
+    }
+
+    if (Get-Process -Name 'MCC-Win64-Shipping*' -ErrorAction SilentlyContinue) {
+        Write-Host 'Halo MCC is running. Close it first, then run this again.' -ForegroundColor Yellow
+        Finish 1
+    }
+
+    if (-not $BuildDll) {
+        Write-Host 'No version.dll found. Run build.bat first (or run this from an unzipped release).' -ForegroundColor Yellow
+        Finish 1
+    }
+
+    Copy-Item $BuildDll $Target -Force
+    Write-Host "Installed to $Target" -ForegroundColor Green
+    Write-Host 'Launch MCC with anti-cheat DISABLED (Play Halo: MCC (Anti-Cheat Disabled)).'
+    Write-Host 'If it is gone later, Windows Defender removed it; see the README.'
+    Finish 0
+} catch {
+    Write-Host "Something went wrong: $($_.Exception.Message)" -ForegroundColor Red
+    Write-Host 'If Windows Defender deleted version.dll, restore it from Protection history and try again.'
+    Finish 1
+}

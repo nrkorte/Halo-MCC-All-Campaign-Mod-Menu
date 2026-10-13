@@ -20,7 +20,7 @@ You need Halo: MCC on **Steam** for PC. It takes about five minutes.
 
 1. Go to the [latest release](https://github.com/nrkorte/Halo-MCC-All-Campaign-Mod-Menu/releases/latest).
 2. Under **Assets**, click `HaloModMenu-v….zip` to download it.
-3. Right-click the zip and choose **Extract All**. You'll get a folder with `version.dll`, `install.ps1`, a README and a checksum file.
+3. Right-click the zip and choose **Extract All**. You'll get a folder with `version.dll`, `install.ps1`, `uninstall.ps1`, a README and a checksum file.
 
 ### Step 2: Tell Windows Defender it's OK
 
@@ -68,13 +68,15 @@ While the menu is open, the game ignores your controller and keyboard. You can c
 
 ### How to uninstall
 
-Delete `version.dll` from the `win64` folder (or run `install.ps1 -Uninstall`). Delete `HaloModMenu.ini` and `HaloModMenu.log` there too if you want to remove your saved settings. Do this before you play online with anti-cheat on.
+Close MCC, then open the extracted folder, right-click `uninstall.ps1` and choose **Run with PowerShell**. It removes the mod and asks whether to delete your saved settings too. It only deletes a `version.dll` that really is HaloModMenu, so other mods are left alone.
+
+Or do it by hand: delete `version.dll` from the `win64` folder, and `HaloModMenu.ini` and `HaloModMenu.log` too if you want to remove your saved settings. Uninstall before you play online with anti-cheat on.
 
 ### If something goes wrong
 
 | Problem | Try this |
 |---|---|
-| The menu doesn't open | Make sure you launched with **Anti-Cheat Disabled**, and that you're **inside a mission** (on MCC's own menus only the co-op settings show). |
+| The menu doesn't open | Make sure you launched with **Anti-Cheat Disabled**. The menu opens on MCC's own screens too, but it only shows the co-op settings there; start a mission to get the full menu. |
 | A warning says the version isn't supported | MCC has updated past 1.3528.0.0. The mod needs an update; check the Releases page. |
 | `version.dll` keeps disappearing | Defender is deleting it. Redo Step 2, then restore it from Protection history or copy it again. |
 | It worked, then stopped after a Steam update | Same as the version warning above. |
@@ -153,7 +155,7 @@ Requires Visual Studio 2022 with the "Desktop development with C++" workload and
 ```
 build.bat                                  -> build\Release\version.dll
 powershell -File install.ps1               (copies it into the game folder)
-powershell -File install.ps1 -Uninstall    (removes it)
+powershell -File uninstall.ps1             (removes it; -RemoveSettings also deletes the ini and logs)
 ```
 
 `install.ps1` finds MCC through Steam's library list; if it can't, pass `-GameDir "<MCC>\mcc\binaries\win64"`. It works from a source checkout or from an unzipped release.
