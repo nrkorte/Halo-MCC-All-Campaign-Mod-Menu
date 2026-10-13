@@ -4,6 +4,8 @@ An in-game cheat and sandbox menu for the **campaigns** of Halo: The Master Chie
 
 It loads as a `version.dll` proxy next to the MCC executable, so there's no injector and nothing to run alongside the game. It needs **anti-cheat disabled** (launch "Play Halo: MCC (Anti-Cheat Disabled)"), so don't use it online.
 
+**Download:** [latest release](https://github.com/nrkorte/Halo-MCC-All-Campaign-Mod-Menu/releases/latest) (built by GitHub Actions from the source in this repo; see [Download and verify](#download-and-verify)).
+
 Supports **MCC 1.3528.0.0 only**. On any other version it shows a warning and does nothing, because every offset is version specific.
 
 ## Windows Defender and antivirus
