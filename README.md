@@ -1,40 +1,151 @@
 # HaloModMenu
 
-An in-game cheat and sandbox menu for the **campaigns** of Halo: The Master Chief Collection (Steam). It covers Halo: CE, Halo 2, Halo 3, Halo 3: ODST, Halo: Reach and Halo 4, and it's controller and keyboard friendly. Multiplayer isn't supported and isn't planned.
+**A cheat and sandbox menu for the campaigns of Halo: The Master Chief Collection (Steam).**
 
-It loads as a `version.dll` proxy next to the MCC executable, so there's no injector and nothing to run alongside the game. It needs **anti-cheat disabled** (launch "Play Halo: MCC (Anti-Cheat Disabled)"), so don't use it online.
+Press a button while you play, and a menu opens over the game. From there you can turn on god mode, infinite ammo, flying, slow motion, third person, spawn enemies, allies, weapons and vehicles, play splitscreen co-op in every campaign, and much more. It works in **Halo: CE, Halo 2, Halo 3, Halo 3: ODST, Halo: Reach and Halo 4**.
 
-**Download:** [latest release](https://github.com/nrkorte/Halo-MCC-All-Campaign-Mod-Menu/releases/latest) (built by GitHub Actions from the source in this repo; see [Download and verify](#download-and-verify)).
+It's for **campaign only**. Multiplayer isn't supported, and you can't use this mod with anti-cheat on, so don't take it online.
 
-Supports **MCC 1.3528.0.0 only**. On any other version it shows a warning and does nothing, because every offset is version specific.
+**[Download the latest release](https://github.com/nrkorte/Halo-MCC-All-Campaign-Mod-Menu/releases/latest)**: open that page, then click `HaloModMenu-v….zip` under **Assets**.
 
-## Windows Defender and antivirus
+> **Important:** this mod only works with **MCC version 1.3528.0.0**. If MCC updates, the mod shows a warning and does nothing until it's updated for the new version. Technical details are further down, below the install guide.
 
-Defender may flag or quarantine the DLL. The detection seen so far is a machine-learning one (`Program:Win32/Contebrew.A!ml`), which is a generic guess, not a match on known malware. The cause is how the mod works, and none of it is hidden:
+---
 
-- It's a proxy `version.dll`, the same trick used by ReShade, ASI loaders and many other game mods, and also by malware (DLL side-loading), so it scores badly on heuristics.
-- It patches game memory and installs hooks (MinHook) in the game's own code, as every trainer does.
+# How to install
+
+You need Halo: MCC on **Steam** for PC. It takes about five minutes.
+
+### Step 1: Download
+
+1. Go to the [latest release](https://github.com/nrkorte/Halo-MCC-All-Campaign-Mod-Menu/releases/latest).
+2. Under **Assets**, click `HaloModMenu-v….zip` to download it.
+3. Right-click the zip and choose **Extract All**. You'll get a folder with `version.dll`, `install.ps1`, a README and a checksum file.
+
+### Step 2: Tell Windows Defender it's OK
+
+Windows Defender (the antivirus built into Windows) often **flags this mod as a virus and deletes it**. It isn't one: the source code is all in this repo, and the download is built automatically from that source. Defender flags it because the mod uses the same techniques that cheats and malware use (it loads as a replacement for a system file and edits the game while it runs), and because it's new and unknown.
+
+To stop Defender deleting it, **before you install**, add an exclusion for the MCC folder:
+
+1. Press the Windows key, type **Windows Security** and open it.
+2. Click **Virus & threat protection**.
+3. Under "Virus & threat protection settings" click **Manage settings**.
+4. Scroll down to **Exclusions** and click **Add or remove exclusions**.
+5. Click **Add an exclusion**, then **Folder**.
+6. Pick your MCC folder (it's in the next step if you don't know where it is). Only exclude that folder, not your whole drive.
+
+If you'd rather not add an exclusion, you can build the mod yourself from the source; see [Build it yourself](#build-it-yourself). If Defender already removed the file, open Windows Security, go to **Protection history**, and restore it.
+
+### Step 3: Install
+
+**Easy way:** open the extracted folder, right-click `install.ps1` and choose **Run with PowerShell**. It finds your MCC install through Steam and copies `version.dll` into it. Close MCC first. If it says it can't find the game, use the manual way below.
+
+**Manual way:**
+1. Open Steam and go to your Library.
+2. Right-click **Halo: The Master Chief Collection**, then **Manage**, then **Browse local files**.
+3. Open the `mcc` folder, then `binaries`, then `win64`. (This is also the folder to exclude in Step 2.)
+4. Copy `version.dll` from the extracted folder into this `win64` folder.
+
+### Step 4: Launch with anti-cheat off
+
+Start MCC from Steam. When the launcher asks, choose **Play Halo: MCC (Anti-Cheat Disabled)**. The mod does **not** load with anti-cheat on, and you can't play online matchmaking this way.
+
+### Step 5: Open the menu
+
+Start any campaign mission. A banner appears for about 15 seconds when the mod loads. Then:
+
+| | Controller | Keyboard / mouse |
+|---|---|---|
+| Open or close the menu | LT + click the right stick | F6 |
+| Move | D-pad or left stick | Mouse or arrow keys |
+| Select / switch on | X | Click, or Space |
+| Back to the main page | Y | Backspace |
+| Close | B | F6 |
+
+While the menu is open, the game ignores your controller and keyboard. You can change any of these buttons in **Menu Settings**, the last category in the menu.
+
+### How to uninstall
+
+Delete `version.dll` from the `win64` folder (or run `install.ps1 -Uninstall`). Delete `HaloModMenu.ini` and `HaloModMenu.log` there too if you want to remove your saved settings. Do this before you play online with anti-cheat on.
+
+### If something goes wrong
+
+| Problem | Try this |
+|---|---|
+| The menu doesn't open | Make sure you launched with **Anti-Cheat Disabled**, and that you're **inside a mission** (on MCC's own menus only the co-op settings show). |
+| A warning says the version isn't supported | MCC has updated past 1.3528.0.0. The mod needs an update; check the Releases page. |
+| `version.dll` keeps disappearing | Defender is deleting it. Redo Step 2, then restore it from Protection history or copy it again. |
+| It worked, then stopped after a Steam update | Same as the version warning above. |
+| Something else | Open an issue on GitHub and attach `HaloModMenu.log` from the `win64` folder. |
+
+---
+
+# What it does
+
+Open the menu in a mission and pick a category. Every option can be switched off again, and your choices are saved separately for each game and come back next time you play. Options a game can't support are greyed out.
+
+| Category | What's in it |
+|---|---|
+| **Player** | God mode, speed, jump height, flying and noclip (fly through walls), third person, no HUD, field of view, change which team you're on |
+| **Weapons** | Infinite ammo, infinite grenades, never reload, rapid fire, full-auto, no recoil, no spread, no overheating, aimbot, give yourself any weapon on the map |
+| **Combat** | One-hit kills, damage multiplier, friendly fire and betrayal options |
+| **Equipment** | Infinite equipment, equipment that doesn't expire, give yourself equipment (in games that have it) |
+| **AI** | Enemies that can't see, hear or shoot you, upgrade enemies, shuffle AI teams, nuke or despawn everything you spawned |
+| **World** | Gravity, slow motion or fast forward, remove invisible walls and kill zones, time stop, save and load checkpoints on demand |
+| **Vehicles** | Faster vehicles, indestructible vehicles, rapid-fire vehicle guns, infinite boost, can't be hijacked, drive Pelicans and Phantoms |
+| **Spawning** | Spawn enemies, allies, squads, weapons and vehicles from the current map, where you're aiming |
+| **Fun / Chaos / Skulls** | Launch enemies when you hit them, giant and tiny enemies, double jump, poison touch, perfect camo and other joke options, plus skull toggles |
+| **Co-op** | Splitscreen for 2 to 4 local players in any campaign, a controller each |
+| **Menu Settings** | Menu colours, size, font and position, and button bindings |
+
+## Local co-op
+
+The **Co-op** page turns on splitscreen for every campaign title (2 to 4 local players, a controller each, optional keyboard and mouse for player 1). Restart the mission or load a checkpoint after changing it. The co-op settings also show on MCC's own menus, so do that before starting a Halo: CE mission.
+
+Co-op is ported from [AlphaRing](https://github.com/WinterSquire/AlphaRing) by WinterSquire; see the **Credits** page in the menu.
+
+## Which games and how well tested?
+
+| Game | State |
+|---|---|
+| Halo 3, Halo: Reach, Halo: CE, ODST, Halo 4 | Core cheats, vehicles and spawning confirmed working in game |
+| Halo 2 | Core cheats, vehicles and spawning confirmed; some newer Fun/Chaos features are still being tested |
+| Newer additions (FOV slider, explosion size, grenade drop, reticle dot) | Rolling out game by game |
+
+This is a hobby project that's still being worked on, so expect rough edges. Bug reports are welcome.
+
+---
+
+# Technical details
+
+Everything below is for developers and the curious.
+
+## How it works
+
+The mod loads as a `version.dll` proxy: MCC loads it from its own folder, and it forwards every export to the real one in System32, so there's no injector and nothing running alongside the game. Once loaded it hooks MCC's title DLLs (`halo1.dll`, `halo2.dll`, ...), draws an ImGui menu through a D3D11 `Present` hook, blocks game input while the menu is open, and edits game memory (tags, object fields, code patches) per title. Everything is version specific, which is why it only supports MCC 1.3528.0.0.
+
+The mod only touches the MCC process. It writes `HaloModMenu.log` (the previous session's log is kept as `HaloModMenu.prev.log`) and `HaloModMenu.ini` next to the DLL, and makes no network connections.
+
+## Why antivirus flags it
+
+Defender's detection so far is a machine-learning one (`Program:Win32/Contebrew.A!ml`), a generic guess and not a match on known malware. The causes:
+
+- A proxy `version.dll` is the same pattern as DLL side-loading, which ReShade and ASI loaders use and so does malware.
+- It patches game memory and installs hooks (MinHook), as every trainer does.
 - It's unsigned and new, so it has no download reputation yet.
 
-What you can do:
+If you're a maintainer, a false-positive report can be sent to Microsoft's Security Intelligence submission page.
 
-- **Build it yourself.** The full source is here and the build is one command (see below). You don't have to trust a binary.
-- Add a Defender exclusion for the **MCC `mcc\binaries\win64` folder only** (Windows Security > Virus & threat protection > Manage settings > Exclusions), not your whole drive. Remove the exclusion if you uninstall.
-- If a release is quarantined, Defender's "Protection history" lets you restore it, and a false-positive report can be sent to Microsoft at the Security Intelligence submission page.
+## Verifying a release
 
-The mod only touches the MCC process, and it only writes `HaloModMenu.log` and `HaloModMenu.ini` next to the DLL. It makes no network connections.
-
-## Download and verify
-
-Releases on the [Releases page](../../releases) are built by GitHub Actions ([workflow](.github/workflows/build.yml)) from the tagged source, not on a personal machine. Each release lists the SHA-256 of `version.dll` and carries a signed build attestation, so you can confirm the file came from this repo's source:
+Releases are built by GitHub Actions ([workflow](.github/workflows/build.yml)) from the tagged source, not on a personal machine. Each release lists the SHA-256 of `version.dll` and carries a signed build attestation, so you can confirm the file came from this repo's source:
 
 ```
 gh attestation verify version.dll --repo nrkorte/Halo-MCC-All-Campaign-Mod-Menu
 ```
 
-Unzip the release, run `install.ps1` from the unzipped folder (or copy `version.dll` into `mcc\binaries\win64` yourself), and launch with anti-cheat disabled.
-
-## Build and install
+## Build it yourself
 
 Requires Visual Studio 2022 with the "Desktop development with C++" workload and the "C++ CMake tools for Windows" component.
 
@@ -44,7 +155,7 @@ powershell -File install.ps1               (copies it into the game folder)
 powershell -File install.ps1 -Uninstall    (removes it)
 ```
 
-`install.ps1` finds MCC through Steam's library list; if it can't, pass `-GameDir "<MCC>\mcc\binaries\win64"`. It works from a source checkout or from an unzipped release. Close MCC before installing, and remove the mod before playing with anti-cheat on.
+`install.ps1` finds MCC through Steam's library list; if it can't, pass `-GameDir "<MCC>\mcc\binaries\win64"`. It works from a source checkout or from an unzipped release.
 
 **Desktop toggle:** `tools\ToggleHaloModMenu\build.bat` builds `Toggle-HaloModMenu.exe` and copies it to the Desktop. Each run flips the mod:
 - **Off:** renames `version.dll` to `version.dll.disabled`.
@@ -52,60 +163,15 @@ powershell -File install.ps1 -Uninstall    (removes it)
 
 It finds MCC through Steam's library list, and it won't touch a `version.dll` that isn't HaloModMenu.
 
-## Status
+## Behaviour notes
 
-All six campaign titles have the core cheat set, spawning and the Fun page. Features were ported from title to title (Halo 3 first, then Reach, CE, ODST, Halo 4 and Halo 2), so test coverage varies:
-
-| Title | State |
-|---|---|
-| Halo 3, Halo: Reach, Halo: CE, ODST, Halo 4 | Core cheats, vehicles and spawning confirmed working in game |
-| Halo 2 | Core cheats, vehicles and spawning confirmed; some newer Fun/Chaos features still being tested |
-| Newer additions (FOV slider, explosion size, grenade drop, reticle dot) | Rolling out title by title; check `NOTES.md` for what's done |
-
-Not every option exists in every game. Options a title can't support are greyed out in the menu (for example Fly and equipment in titles without them).
+- After the menu closes, input stays blocked until you let go of every button, so the B press doesn't reach the game.
+- The corner lists the cheats that are on (this and the startup banner can be hidden in Menu Settings).
+- **Reset:** on the main page, "Reset all" resets everything for the current game; inside a category, "Reset page" resets just that page.
+- Cheat settings are saved per game in `HaloModMenu.ini` (a section per game; the menu's own settings are in `[Mod Menu]`). Delete the file to start from defaults.
+- The open, select, back and close buttons can be rebound in Menu Settings (the open shortcut can be 1 to 4 buttons or keys pressed together).
 
 `NOTES.md` is the detailed handoff: per-title differences, what was tested, known issues and the reverse-engineering notes.
-
-## Use
-
-| | Controller | Keyboard / mouse |
-|---|---|---|
-| Open menu | LT + right stick click | F6 |
-| Move | D-pad or left stick | mouse, arrow keys |
-| Select / toggle | X | click, Space |
-| Back to the main page | Y | Backspace |
-| Close menu | B | F6 |
-
-These are the defaults; the open, select, back and close buttons can be rebound in **Menu Settings** (the open shortcut can be 1 to 4 buttons or keys pressed together).
-
-- While the menu is open, the game gets no input: keyboard, mouse and controller are all blocked.
-- After the menu closes, input stays blocked until you let go of every button, so the B press doesn't reach the game.
-- A startup banner shows for 15 seconds, and the corner lists the cheats that are on (both can be hidden in Menu Settings).
-- **Reset:** on the main page, "Reset all" resets everything for the current game; inside a category, "Reset page" resets just that page.
-- A log is written to `HaloModMenu.log` in `mcc\binaries\win64` (the previous session's is kept as `HaloModMenu.prev.log`). Please attach it to bug reports.
-- Cheat settings are saved per game to `HaloModMenu.ini` in the same folder and come back the next time MCC starts. A game you haven't modded starts with everything off. Delete the file to start from defaults.
-
-## Menu pages
-
-The main page lists categories; each is a submenu.
-
-| Page | What's on it |
-|---|---|
-| Player | God mode, speed, jump, fly, noclip, third person and camera distance, no HUD, FOV, change your team |
-| Weapons | Infinite ammo, bottomless clip, infinite grenades, ammo type, give weapon, full-auto, rapid fire, no spread, no recoil, no overheat, aimbot |
-| Combat | One-hit kill, damage multiplier, friendly fire and betrayal options |
-| Equipment | Infinite equipment, no despawn, give equipment (titles that have equipment) |
-| AI | Enemies can't see, hear or shoot you, upgrade AI, random AI teams, squads, nuke and despawn custom AI |
-| World | Gravity, game speed, remove boundaries, time stop, checkpoints (save, load, lock, history) |
-| Vehicles | Vehicle speed, god mode, rapid fire, no overheat, infinite boost, cannot be hijacked, shut down or ejected |
-| Spawning | Spawn AI, squads, weapons and vehicles from the map's own tags, as ally or enemy, with a team picker |
-| Fun / Chaos / Skulls | Launch on hit, giant and tiny AI, double or infinite jump, poison touch, recoil push, teleport, perfect camo and other joke options, plus skull toggles |
-| Co-op | Local splitscreen for every title (see below) |
-| Menu Settings | Theme, colours, width, font and size, where the menu opens, button bindings, overlay options |
-
-## Local co-op
-
-The **Co-op** page turns on splitscreen for every campaign title (2-4 local players, a controller each, optional keyboard and mouse for player 1). It is ported from [AlphaRing](https://github.com/WinterSquire/AlphaRing) by WinterSquire; see the **Credits** page in the menu. Restart the mission or load a checkpoint after changing it. The menu also opens on MCC's own screens (same buttons) with just the co-op settings, which apply to every title; do that before starting a CE mission.
 
 ## Core cheats
 
