@@ -23,10 +23,10 @@ namespace Gamepad {
     uint32_t HeldMask();
     uint32_t PressedMask();          // went down this frame
 
-    // Left stick with deadzone removed, -1..1 (y up = forward).
+    // Right stick with deadzone removed, -1..1 (y up = forward).
     void RightStick(float& x, float& y);
 
-    // Menu navigation: D-pad / left stick move, `selectMask` (X by default)
+    // Menu navigation: D-pad moves, the right stick scrolls, `selectMask` (X by default)
     // activates. Back and close are handled by the overlay.
     void FeedImGui(ImGuiIO& io, bool menuOpen, uint32_t selectMask);
 }

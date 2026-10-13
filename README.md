@@ -58,7 +58,7 @@ Start any campaign mission. A banner appears for about 15 seconds when the mod l
 | | Controller | Keyboard / mouse |
 |---|---|---|
 | Open or close the menu | LT + click the right stick | F6 |
-| Move | D-pad or left stick | Mouse or arrow keys |
+| Move | D-pad (right stick scrolls the page) | Mouse or arrow keys |
 | Select / switch on | X | Click, or Space |
 | Back to the main page | Y | Backspace |
 | Close | B | F6 |
