@@ -35,7 +35,7 @@ To stop Defender deleting it, **before you install**, add an exclusion for the M
 5. Click **Add an exclusion**, then **Folder**.
 6. Pick your MCC folder (it's in the next step if you don't know where it is). Only exclude that folder, not your whole drive.
 
-If you'd rather not add an exclusion, you can build the mod yourself from the source; see [Build it yourself](#build-it-yourself). If Defender already removed the file, open Windows Security, go to **Protection history**, and restore it.
+If Defender already removed the file, open Windows Security, go to **Protection history**, and restore it.
 
 ### Step 3: Install
 
