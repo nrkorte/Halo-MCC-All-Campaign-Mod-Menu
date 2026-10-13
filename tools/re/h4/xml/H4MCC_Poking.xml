@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<poking>
+	<!-- To add a new build, just add the version number, and then depending on the game, the following;
+	
+				For engines that use a single pointer to the map header and the magic value just beyond:
+				headerPointer       - The location of a pointer for a buffer containing the map header and magic. The offset (subtracting the header size) to the magic should be added to Engines.xml
+				
+				For engines where the above does not apply and the map header and magic are not pointers:
+				headerAddress       - The location of the map header.
+				magicAddress        - The location of the magic value to convert map addresses to runtime addresses.
+				magicOffset         - The location inside headerAddress of the magic value to convert map addresses to runtime addresses. Should never change.
+				sharedMagicAddress  - The location of the magic value to convert shared map addresses to runtime addresses. For Second Generation.-->
+
+	<version name="1.1896.0.0" headerPointer="0x2531C00" magicOffset="0xA8" />
+	<version name="1.1930.0.0" headerPointer="0x2532C10" magicOffset="0xA8" />
+	<version name="1.1955.0.0" headerPointer="0x2532C00" magicOffset="0xA8" />
+	<version name="1.2028.0.0" headerPointer="0x2532C00" magicOffset="0xA8" />
+	<version name="1.2094.0.0" headerPointer="0x2532C00" magicOffset="0xA8" />
+	<version name="1.2241.0.0" headerPointer="0x2538720" magicOffset="0xA8" />
+	<version name="1.2282.0.0" headerPointer="0x2538720" magicOffset="0xA8" />
+	<version name="1.2341.0.0" headerPointer="0x253B720" magicOffset="0xA8" />
+	<version name="1.2398.0.0" headerPointer="0x253A500" magicOffset="0xA8" />
+	<version name="1.2406.0.0" headerPointer="0x253A500" magicOffset="0xA8" />
+	<version name="1.2448.0.0" headerPointer="0x253A500" magicOffset="0xA8" />
+	<version name="1.2580.0.0" headerPointer="0x2605D60" magicOffset="0xA8" />
+	<version name="1.2589.0.0" headerPointer="0x2605D60" magicOffset="0xA8" />
+	<version name="1.2611.0.0" headerPointer="0x2605D60" magicOffset="0xA8" />
+	<version name="1.2645.0.0" headerPointer="0x2605D60" magicOffset="0xA8" />
+	<version name="1.2819.0.0" headerPointer="0x2773170" magicOffset="0xA8" />
+	<version name="1.2835.0.0" headerPointer="0x2773170" magicOffset="0xA8" />
+	<version name="1.2845.0.0" headerPointer="0x2773170" magicOffset="0xA8" />
+	<version name="1.2862.0.0" headerPointer="0x2773170" magicOffset="0xA8" />
+	<version name="1.2904.0.0" headerPointer="0x2773170" magicOffset="0xA8" />
+	<version name="1.2969.0.0" headerPointer="0x28B5BB0" magicOffset="0xA8" />
+	<version name="1.3065.0.0" headerPointer="0x28A6060" magicOffset="0xA8" />
+	<version name="1.3073.0.0" headerPointer="0x28A60D0" magicOffset="0xA8" />
+	<version name="1.3232.0.0" headerPointer="0x28BCC30" magicOffset="0xA8" />
+	<version name="1.3251.0.0" headerPointer="0x28BCCB0" magicOffset="0xA8" />
+	<version name="1.3272.0.0" headerPointer="0x28BCCB0" magicOffset="0xA8" />
+	<version name="1.3385.0.0" headerPointer="0x28BCCB0" magicOffset="0xA8" />
+	<version name="1.3495.0.0" headerPointer="0x28BCD30" magicOffset="0xA8" />
+	<version name="1.3498.0.0" headerPointer="0x28BCD30" magicOffset="0xA8" />
+	<version name="1.3528.0.0" headerPointer="0x28BCD30" magicOffset="0xA8" />
+</poking>

@@ -1,0 +1,43 @@
+#pragma once
+
+#include <windows.h>
+
+#include <cstdint>
+#include <string>
+#include <vector>
+
+#include "games/game.h"
+
+// Reads Halo 4 tag data (the loaded map's definitions) from memory.
+// Callers must be inside SEH: pointers are only valid while a map is loaded.
+namespace Halo4Tags {
+    void SetModule(HMODULE halo4);  // nullptr on unload
+
+    // Tag data for a tag datum (e.g. an object's definition), or nullptr.
+    char* Get(uint32_t datum);
+
+    // The loaded scenario ('scnr') and globals ('matg') tags, or nullptr.
+    char* Scenario();
+    char* Globals();
+
+    // Reads tag names from the loaded map's .map file (they aren't kept in
+    // memory). Cached per map. Returns false if the names couldn't be read.
+    bool LoadNames();
+
+    // Every tag of one group ('weap', 'proj', ...) with its short name,
+    // sorted by name. Safe to call any time.
+    std::vector<Games::TagChoice> ListGroup(uint32_t groupMagic);
+
+    // A tag's full name ("objects\weapons\rifle\storm_br\storm_br"), or "" if
+    // the names aren't loaded.
+    std::string FullName(uint32_t datum);
+
+    // A loaded tag's group magic ('vehi'), or 0.
+    uint32_t GroupOf(uint32_t datum);
+    // A string id's text ("gauss"), or "" (LoadNames reads them).
+    std::string StringName(uint32_t stringId);
+
+    // Element `index` of a tag block at `tag + blockOffset`, or nullptr.
+    char* BlockElement(char* tag, int blockOffset, int elementSize, int index);
+    int BlockCount(char* tag, int blockOffset);
+}

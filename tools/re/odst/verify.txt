@@ -1,0 +1,85 @@
+L12 000b2aa3 -> 000c026d SAME (12 insns) | call 0x1800b414c || call 0x1800c1abc | // Per-frame player input update, called from the frame upda
+L18 00357da6 -> ??            | // object_placement_data_new(placement*, tag datum, owner object, 0)  (RVA 0x357DA6 caller
+L22 00357e40 -> ??            | // object_delete(object datum)  (RVA 0x357E40 caller)
+L25 00357e34 -> ??            | //   mode 1: into a free slot (starting loadout, RVA 0x357E34)
+L26 003b32b6 -> ??            | //   mode 3: swap for the held weapon, dropping it (weapon pickup, RVA 0x3B32B6)
+L27 003b3262 -> ??            | //   mode 4: dual wield (weapon pickup, RVA 0x3B3262)
+L31 001e4da8 -> 00217b6c SAME (24 insns) | call 0x18034d520 || call 0x1803918c8 | // unit_kill(unit datum)  (unit_kill evaluator, RVA 0x1E4DA8
+L33 002596c3 -> 0028505b SAME (12 insns) | call 0x180259410 || call 0x180284da8 | // object_teleport(object, position*, forward*, up*, bool)  
+L37 002587b1 -> 00283fb5 SAME (12 insns, loose) | call 0x180355460 || call 0x180399c38 | // (objects_can_see_object, RVA 0x2587B1)
+L42 005b0628 -> 006063fa DIFF (16 insns from -16, loose) | comiss xmm1, dword ptr [r12 + 0x14] || comiss xmm1, dword ptr [r13 + 0x14] | #define HALO3_AOB_AI_CANT_FIRE  "41 0F 2F 4C 24 14"         
+L44 005d8d85 -> 0062b085 SAME (12 insns) | movss xmm12, dword ptr [rax + 4] || movss xmm12, dword ptr [rax + 4] | #define HALO3_AOB_AI_INVISIBLE  "F3 44 0F 10 60 04 F3 44"   
+L47 00367586 -> ??            | // The Cheat Engine table instead zeroes the minimum recoil at RVA 0x367586.
+L48 003675a8 -> ??            | #define HALO3_AOB_RECOIL        "F3 0F 5C C6 8B CE F3 0F 59 D0 F3 0F 58 D6 E8"  // RVA 0x3
+L54 005d94ab -> 0062b7b3 SAME (12 insns) | movss xmm6, dword ptr [rax + 0x18] || movss xmm6, dword ptr [rax + 0x18] | #define HALO3_AOB_AI_HEARING    "F3 0F 10 70 18 0F 28 C3 F3 
+L56 00211e80 -> 0024205c DIFF (16 insns from -16) | mov qword ptr [rsp + 0x10], rbx || mov rax, rsp | // Third person: the player director's update (vtable[1], RV
+L58 001326e8 -> 00153524 SAME (16 insns from -16) | mov qword ptr [rsp + 8], rbx || mov qword ptr [rsp + 8], rbx | // (RVA 0x1326E8, e.g. vehicles), otherwise first person (3)
+L62 002120a1 -> ??            | #define HALO3_AOB_THIRD_PERSON    "41 FF 50 20 BE 01 00 00 00 45 85 E4 75 3E"  // RVA 0x21
+L63 002120ad -> ??            | #define HALO3_THIRD_PERSON_OFFSET 12                                          // the jne, 
+L70 0023300e -> 00261e1a SAME (12 insns) | mov rax, qword ptr [rax + 0x18] || mov rax, qword ptr [rax + 0x18] | // RVA 0x23300E / 0x9B710).
+L74 000e3cc2 -> ??            | #define HALO3_TLS_SLOT_PLAYERS           2   // data array (RVA 0xE3CC2 reads +0x10)
+L75 001f73cd -> 0022b369 DIFF (12 insns, loose) | mov edx, 0x38 || mov edx, 0x20 | #define HALO3_TLS_SLOT_OBJECTS           7   // data array (
+L76 001e6d54 -> 00219a3c DIFF (16 insns from -16) | mov edx, 0x30 || mov edx, 0x38 | #define HALO3_TLS_SLOT_AI_GLOBALS        6   // ai_grenades,
+L77 0036ad6c -> 003b1710 DIFF (16 insns from -16) | mov eax, 0x48 || mov eax, 0x40 | #define HALO3_TLS_SLOT_GAME_GLOBALS      9   // RVA 0x36AD6C
+L78 000f90f7 -> 00115223 SAME (12 insns, loose) | mov r8, qword ptr [rcx + rdx*8] || mov r8, qword ptr [rcx + rdx*8] | #define HALO3_TLS_SLOT_PLAYER_CONTROL   24   // RVA 0xF90F7 
+L79 0035f226 -> 003a53ee SAME (12 insns, loose) | mov r8d, 0xc8 || mov r8d, 0xc8 | #define HALO3_TLS_SLOT_GAME_TIME        25   // RVA 0x35F226
+L80 001e43c9 -> 00216bd5 SAME (12 insns) | mov edx, 0x130 || mov edx, 0x130 | #define HALO3_TLS_SLOT_PHYSICS_CONSTANTS 38  // RVA 0x1E43C9
+L81 00199b5a -> 0017ec1e DIFF (16 insns from -16) | mov eax, 0x180 || mov eax, 0x178 | #define HALO3_TLS_SLOT_ALLEGIANCE       48   // team allegia
+L82 001f642b -> 0022a413 DIFF (16 insns from -16) | mov r10d, 0x188 || mov r10d, 0x190 | #define HALO3_TLS_SLOT_DIRECTORS        49   // one per loca
+L83 001f451c -> 002180dc DIFF (32 insns, loose) | mov edx, 0x220 || mov edx, 0xb8 | #define HALO3_TLS_SLOT_CHUD             68   // HUD globals 
+L86 001f452b -> 00227d27 SAME (12 insns) | mov byte ptr [rdx + 0x144], al || mov byte ptr [rdx + 0x144], al | #define HALO3_CHUD_SHOW 0x144  // byte, 0 hides the HUD (chu
+L90 00131b75 -> 001529c1 SAME (12 insns) | call qword ptr [rax] || call qword ptr [rax] | #define HALO3_DIRECTOR_CAMERA 0x8   // camera object; vtable
+L93 007fb748 -> ??            | // Following camera update, vtable[2] (vtable RVA 0x7FB748, set at RVA 0x131F53):
+L93 00131f53 -> ??            | // Following camera update, vtable[2] (vtable RVA 0x7FB748, set at RVA 0x131F53):
+L95 00131760 -> 001525ac SAME (12 insns) | call qword ptr [rax + 0x10] || call qword ptr [rax + 0x10] | // director update (RVA 0x131760). The command is copied to 
+L96 0013199a -> 001527e6 SAME (12 insns) | mov qword ptr [rsi + rbx + 0x10], rdi || mov qword ptr [rsi + rbx + 0x10], rdi | // handed to the observer (RVA 0x13199A).
+L99 002141d9 -> 002446b4 SAME (12 insns) | movss dword ptr [rdi + 0x24], xmm7 || movss dword ptr [rdi + 0x24], xmm7 | // (RVA 0x2141D9, the length of the unit's camera track offs
+L102 002141f0 -> 002446cb SAME (12 insns) | movss dword ptr [rdi + 0x10], xmm0 || movss dword ptr [rdi + 0x10], xmm0 | #define HALO3_OBSERVER_COMMAND_FOCUS_OFFSET 0x10  // float[3
+L105 00199b08 -> 0017ebcc SAME (12 insns, loose) | push rbx || push rbx | // friends[a] is set (game_team_is_friendly, RVA 0x199B08; a
+L111 00199b4a -> 0017ec0e SAME (12 insns, loose) | cmp r8b, 1 || cmp r8b, 1 | #define HALO3_GAME_GLOBALS_MODE   0x10    // byte: 1 = campa
+L113 0036ad75 -> 003b1719 DIFF (12 insns, loose) | mov edx, dword ptr [rax + 0xfb88] || mov edx, dword ptr [rax + 0xfb10] | #define HALO3_GAME_GLOBALS_SKULLS 0xFB88  // 128-bit skull b
+L114 0036ad7b -> 003b171f SAME (12 insns, loose) | shr rdx, 0x17 || shr rdx, 0x17 | #define HALO3_SKULL_BANDANNA      23      // infinite ammo (
+L118 001e6d63 -> 00219a4b DIFF (24 insns, loose) | mov byte ptr [rdx + 0x3c0], al || mov byte ptr [rdx + 0x3c4], al | #define HALO3_AI_GLOBALS_GRENADES 0x3C0  // byte, AI may thr
+L121 003846a2 -> ??            | #define HALO3_GAME_TIME_TICKS 0xC   // int32 current tick (RVA 0x3846A2)
+L125 001e43d8 -> 00216be4 SAME (12 insns) | movss dword ptr [rcx], xmm0 || movss dword ptr [rcx], xmm0 | #define HALO3_PHYSICS_GRAVITY 0x0            // float (RVA 0
+L126 00847220 -> ??            | #define HALO3_DEFAULT_GRAVITY 4.1712594f     // RVA 0x847220 (used by physics_set_gravity)
+L129 000f90fb -> 00115227 DIFF (12 insns, loose) | imul rcx, rax, 0x110 || imul rcx, rax, 0x2c0 | #define HALO3_PLAYER_CONTROL_SIZE  0x110  // RVA 0xF90FB
+L131 000f9106 -> 00115232 SAME (12 insns) | movss xmm0, dword ptr [rax + rcx + 0xd8] || movss xmm0, dword ptr [rax + rcx + 0xd8] | #define HALO3_PLAYER_CONTROL_PITCH 0xD8   // float radians (
+L145 001f2fc2 -> ??            | // 0x1F34D4); game_revert writes 0x0C01 to the word at 0x20B96AA (RVA 0x1F2FC2).
+L152 0037274b -> 003b93a3 SAME (12 insns, loose) | mov eax, dword ptr [r8 + 0xc] || mov eax, dword ptr [r8 + 0xc] | #define HALO3_OBJECT_NEXT_SIBLING  0x08   // attached object
+L159 001e34a6 -> 00215cc6 SAME (12 insns) | bts eax, 8 || bts eax, 8 | #define HALO3_OBJECT_PHYSICS_FLAGS 0xA8   // bit 8 = physics
+L172 0034d556 -> 003918fe DIFF (12 insns, loose) | or dword ptr [rdx + 0x110], 0x40 || or dword ptr [rdx + 0x104], 0x40 | #define HALO3_DAMAGE_FLAG_KILL                  0x40u  // se
+L176 001e7732 -> 0021a84e SAME (24 insns, loose) | bts ecx, 7 || bts ecx, 7 | #define HALO3_UNIT_FLAGS           0x170  // (ai_disregard, 
+L178 001e5433 -> 002181e7 DIFF (12 insns, loose) | mov ecx, dword ptr [rax + 0x174] || mov ecx, dword ptr [rax + 0x16c] | #define HALO3_UNIT_TEAM            0x174  // int16 (unit_get
+L179 0036adac -> 003b1750 DIFF (12 insns, loose) | mov ecx, dword ptr [rcx + 0x178] || mov ecx, dword ptr [rcx + 0x170] | #define HALO3_UNIT_PLAYER_INDEX    0x178  // -1 if not a pla
+L180 001f73ec -> 0022b388 DIFF (12 insns, loose) | movsx edx, byte ptr [rdx + 0x262] || movsx edx, byte ptr [rdx + 0x276] | #define HALO3_UNIT_CURRENT_WEAPON  0x262  // int8 (RVA 0x1F7
+L181 0035a0a2 -> 0039ec7a DIFF (16 insns from -8, loose) | mov byte ptr [rbx + 0x266], al || mov byte ptr [rbx + 0x27a], al | #define HALO3_UNIT_DESIRED_WEAPON  0x266  // int8; the unit 
+L183 003563c5 -> 0039ab9d DIFF (12 insns, loose) | mov eax, dword ptr [rax + rcx*4 + 0x268] || mov eax, dword ptr [rax + rcx*4 + 0x27c] | #define HALO3_UNIT_WEAPONS         0x268  // uint32 datum[4]
+L184 003509ab -> ??            | #define HALO3_UNIT_EQUIPMENT       0x288  // uint32 datum of carried equipment, or -1 (RVA
+L185 001e5fc3 -> 00218de3 DIFF (12 insns, loose) | movsx ecx, byte ptr [rax + rdx + 0x294] || movsx ecx, byte ptr [rax + rdx + 0x2a8] | #define HALO3_UNIT_GRENADE_COUNTS  0x294  // int8[4] (unit_g
+L193 0036728c -> ??            | #define HALO3_WEAPON_HEAT          0x188  // float; overheats at the tag's limit (RVA 0x36
+L194 003606c0 -> ??            | #define HALO3_WEAPON_AGE           0x18C  // float; battery drain for energy weapons (RVA 
+L195 0035f508 -> 003a56d0 SAME (12 insns) | imul rsi, r8, 0x34 || imul rsi, r8, 0x34 | // Barrel state, 2 per weapon (RVA 0x35F508: index * 0x34, w
+L200 0036556b -> 003ab8ef DIFF (16 insns from -16) | movsx r9d, byte ptr [rsi + rdi + 0x1b0] || movsx r9d, byte ptr [rsi + rdi + 0x1a8] | // ticks-per-round from the tag's rounds per second (RVA 0x3
+L202 00368004 -> ??            | #define HALO3_BARREL_FIRE_DELAY    0x2    // int16 recovery ticks after a shot (RVA 0x3680
+L203 0035f5c8 -> 003a5790 DIFF (12 insns, loose) | movss dword ptr [rsi + rbp + 0x1cc], xmm2 || movss dword ptr [rsi + rbp + 0x1c4], xmm2 | #define HALO3_BARREL_ERROR         0x1C   // float spread, 0
+L204 0036008c -> ??            | // Trigger state, 2 per weapon (RVA 0x36008C: index * 12, weapon + 0x21C).
+L210 00360d94 -> ??            | // shot (RVA 0x360D94, 0x361093)
+L211 0035f1e5 -> 003a53ad SAME (12 insns) | lea rdi, [r15 + r15*2] || lea rdi, [r15 + r15*2] | #define HALO3_WEAPON_MAGAZINES     0x230  // array of magazi
+L213 00362fcb -> 003a9317 DIFF (12 insns, loose) | movsx r8d, word ptr [rdi + rsi*8 + 0x236] || movsx r8d, word ptr [rdi + rsi*8 + 0x22e] | #define HALO3_MAGAZINE_RESERVE     0x6    // int16 rounds no
+L214 0035f212 -> 003a53da DIFF (12 insns, loose) | movzx r9d, word ptr [rbx + rdi*8 + 0x23a] || movzx r9d, word ptr [rbx + rdi*8 + 0x232] | #define HALO3_MAGAZINE_LOADED      0xA    // int16 rounds in
+L218 00384078 -> 003c406c DIFF (16 insns from -16, loose) | sub rsp, 0x28 || mov edx, dword ptr [rip + 0x6cbaaa] | // until now - activation >= the tag's duration (RVA 0x38407
+L219 00357714 -> 0039be50 SAME (12 insns) | call 0x18038414c || call 0x1803c414c | // equipment whose uses left == 0 leaves the unit (RVA 0x357
+L221 003843d9 -> 003c43dd DIFF (12 insns) | ucomiss xmm0, dword ptr [rip + 0x4bbd20] || ucomiss xmm0, dword ptr [rip + 0x4bdf10] | // other equipment, needs the carried one's effect to be ove
+L223 003846a8 -> ??            | #define HALO3_EQUIPMENT_ACTIVATED  0x174  // int32 tick of last use, or -1 (RVA 0x3846A8)
+L224 003846ce -> ??            | #define HALO3_EQUIPMENT_USES_SPENT 0x178  // uint8 (RVA 0x3846CE)
+L227 0035f1bf -> 003a5387 DIFF (12 insns, loose) | mov rax, qword ptr [rip + 0x6e9e52] || mov rax, qword ptr [rip + 0x6f9d1a] | // Tag data = *tag_base + address * 4 (RVA 0x35F1BF).
+L229 000a6b76 -> 000b38f8 DIFF (16 insns from -16) | mov rcx, qword ptr [rip + 0x20064db] || mov rdx, qword ptr [rip + 0x203f769] | #define OFFSET_HALO3_TAG_INDEX_HEADER  0x20AD058  // header*
+L230 000a70d6 -> 000b3f92 SAME (12 insns) | add rax, qword ptr [rbx + 8] || add rax, qword ptr [rbx + 8] | #define HALO3_TAG_HEADER_GROUPS        0x8        // {u32 ma
+L236 00a49148 -> ??            | // Tag names aren't kept in memory in normal play (the table at RVA 0xA49148
+L246 000a65f6 -> ??            | // The loaded map's header, copied to memory at map load (RVA 0xA65F6).
+L261 0034e3e4 -> ??            | // Boost update (RVA 0x34E3E4): vehicle +0x3F4 is the boost timer, +0x3F8 the
+L268 000f4670 -> 001100de DIFF (16 insns from -16, loose) | movsx rcx, word ptr [r13 + 0x24e] || movsx rcx, word ptr [r13 + 0x262] | // in Halo 2. The unit's seat index is at +0x24E (read at RV
+L275 0034d5b0 -> 00391958 SAME (16 insns from -8, loose) | mov rax, rsp || mov rax, rsp | // EMP: unit_emp (RVA 0x34D5B0) converts the tag's EMP Disab
+L322 00384199 -> 003c4199 DIFF (12 insns, loose) | movzx edx, word ptr [rax + 0x194] || movzx edx, word ptr [rax + 0x1a4] | #define HALO3_EQIP_USES 0x194  // int16 number of uses; -1 u
+L339 000a6bee -> ??            | #define HALO3_TAG_SCNR 0x73636E72  // 'scnr' (RVA 0xA6BEE)

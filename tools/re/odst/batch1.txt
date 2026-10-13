@@ -1,0 +1,105 @@
+== game_save_immediate 0x1f34c8 0x226ea4
+001f34c8: sub rsp, 0x28                                      | 00226ea4: sub rsp, 0x28
+001f34cc: mov ecx, 3                                         | 00226ea8: mov ecx, 3
+001f34d1: mov r8d, edx                                       | 00226ead: mov r8d, edx
+001f34d4: call 0x1801c92b8                                   | 00226eb0: call 0x1801fdfe4
+001f34d9: xor edx, edx                                       | 00226eb5: xor edx, edx
+001f34db: mov ecx, r8d                                       | 00226eb7: mov ecx, r8d
+001f34de: add rsp, 0x28                                      | 00226eba: add rsp, 0x28
+001f34e2: jmp 0x180105858                                    | 00226ebe: jmp 0x180123b68
+001f34e7: int3                                               | 00226ec3: int3 
+== game_revert 0x1f2fc0 0x22699c
+001f2fc0: mov ecx, edx                                       | 0022699c: mov ecx, edx
+001f2fc2: mov word ptr [rip + 0x1ec66df], 0xc01              | 0022699e: mov word ptr [rip + 0x1ed8d13], 0xc01
+001f2fcb: xor edx, edx                                       | 002269a7: xor edx, edx
+001f2fcd: jmp 0x180105858                                    | 002269a9: jmp 0x180123b68
+001f2fd2: int3                                               | 002269ae: int3 
+== unit_kill 0x1e4d94 0x217b58
+001e4d94: push rbx                                           | 00217b58: push rbx
+001e4d96: sub rsp, 0x20                                      | 00217b5a: sub rsp, 0x20
+001e4d9a: mov ebx, edx                                       | 00217b5e: mov ebx, edx
+001e4d9c: call 0x180106600                                   | 00217b60: call 0x180124910
+001e4da1: test rax, rax                                      | 00217b65: test rax, rax
+001e4da4: je 0x1801e4db6                                     | 00217b68: je 0x180217b7a
+001e4da6: mov ecx, dword ptr [rax]                           | 00217b6a: mov ecx, dword ptr [rax]
+001e4da8: call 0x18034d520                                   | 00217b6c: call 0x1803918c8
+001e4dad: xor edx, edx                                       | 00217b71: xor edx, edx
+001e4daf: mov ecx, ebx                                       | 00217b73: mov ecx, ebx
+001e4db1: call 0x180105858                                   | 00217b75: call 0x180123b68
+001e4db6: add rsp, 0x20                                      | 00217b7a: add rsp, 0x20
+001e4dba: pop rbx                                            | 00217b7e: pop rbx
+001e4dbb: ret                                                | 00217b7f: ret 
+001e4dbc: push rbx                                           | 00217b80: push rbx
+001e4dbe: sub rsp, 0x20                                      | 00217b82: sub rsp, 0x20
+001e4dc2: mov ebx, edx                                       | 00217b86: mov ebx, edx
+001e4dc4: call 0x180106600                                   | 00217b88: call 0x180124910
+001e4dc9: test rax, rax                                      | 00217b8d: test rax, rax
+001e4dcc: je 0x1801e4dde                                     | 00217b90: je 0x180217ba2
+001e4dce: mov ecx, dword ptr [rax]                           | 00217b92: mov ecx, dword ptr [rax]
+001e4dd0: call 0x18034d568                                   | 00217b94: call 0x180391910
+== object_set_velocity 0x1e3690 0x21602c
+001e3690: push rbx                                           | 0021602c: push rbx
+001e3692: sub rsp, 0x20                                      | 0021602e: sub rsp, 0x20
+001e3696: mov ebx, edx                                       | 00216032: mov ebx, edx
+001e3698: call 0x180106600                                   | 00216034: call 0x180124910
+001e369d: test rax, rax                                      | 00216039: test rax, rax
+001e36a0: je 0x1801e36bd                                     | 0021603c: je 0x18021605d
+001e36a2: movss xmm1, dword ptr [rax + 4]                    | 0021603e: movss xmm3, dword ptr [rax + 0xc]
+001e36a7: xorps xmm3, xmm3                                   | 00216043: movss xmm2, dword ptr [rax + 8]
+001e36aa: mov ecx, dword ptr [rax]                           | 00216048: movss xmm1, dword ptr [rax + 4]
+001e36ac: xorps xmm2, xmm2                                   | 0021604d: mov ecx, dword ptr [rax]
+001e36af: call 0x18039bad0                                   | 0021604f: call 0x1803e0238
+001e36b4: xor edx, edx                                       | 00216054: xor edx, edx
+001e36b6: mov ecx, ebx                                       | 00216056: mov ecx, ebx
+001e36b8: call 0x180105858                                   | 00216058: call 0x180123b68
+001e36bd: add rsp, 0x20                                      | 0021605d: add rsp, 0x20
+001e36c1: pop rbx                                            | 00216061: pop rbx
+001e36c2: ret                                                | 00216062: ret 
+001e36c3: int3                                               | 00216063: int3 
+== object_get_parent 0x1e34c8 0x215ce8
+001e34c8: push rbx                                           | 00215ce8: push rbx
+001e34ca: sub rsp, 0x20                                      | 00215cea: sub rsp, 0x20
+001e34ce: mov ebx, edx                                       | 00215cee: mov ebx, edx
+001e34d0: call 0x180106600                                   | 00215cf0: call 0x180124910
+001e34d5: test rax, rax                                      | 00215cf5: test rax, rax
+001e34d8: je 0x1801e34ea                                     | 00215cf8: je 0x180215d0a
+001e34da: mov ecx, dword ptr [rax]                           | 00215cfa: mov ecx, dword ptr [rax]
+001e34dc: call 0x18039b8c4                                   | 00215cfc: call 0x1803e002c
+001e34e1: mov edx, eax                                       | 00215d01: mov edx, eax
+001e34e3: mov ecx, ebx                                       | 00215d03: mov ecx, ebx
+001e34e5: call 0x180105858                                   | 00215d05: call 0x180123b68
+001e34ea: add rsp, 0x20                                      | 00215d0a: add rsp, 0x20
+001e34ee: pop rbx                                            | 00215d0e: pop rbx
+001e34ef: ret                                                | 00215d0f: ret 
+001e34f0: mov qword ptr [rsp + 8], rbx                       | 00215d10: mov qword ptr [rsp + 8], rbx
+001e34f5: mov qword ptr [rsp + 0x10], rbp                    | 00215d15: mov qword ptr [rsp + 0x10], rbp
+001e34fa: mov qword ptr [rsp + 0x18], rsi                    | 00215d1a: mov qword ptr [rsp + 0x18], rsi
+001e34ff: push rdi                                           | 00215d1f: push rdi
+001e3500: sub rsp, 0x20                                      | 00215d20: sub rsp, 0x20
+001e3504: mov ebp, edx                                       | 00215d24: mov ebp, edx
+001e3506: call 0x180106600                                   | 00215d26: call 0x180124910
+001e350b: mov r10, rax                                       | 00215d2b: mov r10, rax
+== unit_get_current_flashlight_state None None
+== ai_grenades 0x1e6d30 0x219a18
+001e6d30: push rbx                                           | 00219a18: push rbx
+001e6d32: sub rsp, 0x20                                      | 00219a1a: sub rsp, 0x20
+001e6d36: mov ebx, edx                                       | 00219a1e: mov ebx, edx
+001e6d38: call 0x180106600                                   | 00219a20: call 0x180124910
+001e6d3d: test rax, rax                                      | 00219a25: test rax, rax
+001e6d40: je 0x1801e6d70                                     | 00219a28: je 0x180219a58
+001e6d42: mov r8d, dword ptr [rip + 0x853253]                | 00219a2a: mov r8d, dword ptr [rip + 0x8760eb]
+001e6d49: mov al, byte ptr [rax]                             | 00219a31: mov al, byte ptr [rax]
+001e6d4b: mov rcx, qword ptr gs:[0x58]                       | 00219a33: mov rcx, qword ptr gs:[0x58]
+001e6d54: mov edx, 0x30                                      | 00219a3c: mov edx, 0x38
+001e6d59: mov rcx, qword ptr [rcx + r8*8]                    | 00219a41: mov rcx, qword ptr [rcx + r8*8]
+001e6d5d: mov rdx, qword ptr [rcx + rdx]                     | 00219a45: mov rdx, qword ptr [rcx + rdx]
+001e6d61: mov ecx, ebx                                       | 00219a49: mov ecx, ebx
+001e6d63: mov byte ptr [rdx + 0x3c0], al                     | 00219a4b: mov byte ptr [rdx + 0x3c4], al
+001e6d69: xor edx, edx                                       | 00219a51: xor edx, edx
+001e6d6b: call 0x180105858                                   | 00219a53: call 0x180123b68
+001e6d70: add rsp, 0x20                                      | 00219a58: add rsp, 0x20
+001e6d74: pop rbx                                            | 00219a5c: pop rbx
+001e6d75: ret                                                | 00219a5d: ret 
+001e6d76: int3                                               | 00219a5e: int3 
+== game_time_get None None
+== player_get_unit None None

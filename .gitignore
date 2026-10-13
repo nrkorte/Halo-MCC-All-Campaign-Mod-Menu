@@ -1,0 +1,11 @@
+build/
+tools/ToggleHaloModMenu/Toggle-HaloModMenu.exe
+tools/ToggleHaloModMenu/BuildInfo.cs
+tools/re/*.img
+tools/re/*.pkl
+tools/re/**/*.img
+tools/re/**/*.pkl
+*.7z
+*.zip
+__pycache__/
+*.pyc
