@@ -200,9 +200,8 @@ namespace {
                                {0x8AE150, kBar1, 17, true},
                                {0x8AE164, kBar2, 17, true},
                                {0x8AE1A0, kBar1, 17, true}};
-    // AlphaRing ships Halo 4 and Halo 2A's black-bar patches switched off, so they're left out here.
+    // AlphaRing ships Halo 4's black-bar patches switched off, so they're left out here.
     const PatchDef kHalo4[] = {{0x56671C, kXorRet, 4, false}, {0x4E311B, "\xEB", 1, false}, {0x3F5D7, kNops6, 6, false}};
-    const PatchDef kGroundhog[] = {{0x567DF0, kXorRet, 4, false}, {0x4E50DB, "\xEB", 1, false}};
     const PatchDef kOdst[] = {{0x1258C, kXorRet, 4, false},
                               {0x8F1FB0, kBar1, 17, true},
                               {0x8F1FC4, kBar2, 17, true},
@@ -224,7 +223,6 @@ namespace {
         {L"halo2.dll", "Halo 2", kHalo2, _countof(kHalo2)},
         {L"halo3.dll", "Halo 3", kHalo3, _countof(kHalo3)},
         {L"halo4.dll", "Halo 4", kHalo4, _countof(kHalo4)},
-        {L"groundhog.dll", "Halo 2: Anniversary", kGroundhog, _countof(kGroundhog)},
         {L"halo3odst.dll", "Halo 3: ODST", kOdst, _countof(kOdst)},
         {L"haloreach.dll", "Halo: Reach", kReach, _countof(kReach)},
     };

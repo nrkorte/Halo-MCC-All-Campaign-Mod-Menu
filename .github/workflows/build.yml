@@ -1,0 +1,74 @@
+name: build
+
+# Every push and pull request builds the DLL. Pushing a tag like v1.0.0 also
+# publishes a GitHub release whose version.dll was built by this workflow from
+# the tagged source, with a SHA-256 and a signed build attestation.
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-2022
+    permissions:
+      contents: write       # create the release
+      id-token: write       # build attestation
+      attestations: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Package
+        shell: pwsh
+        run: |
+          $name = if ($env:GITHUB_REF_TYPE -eq 'tag') { $env:GITHUB_REF_NAME } else { "dev-$($env:GITHUB_SHA.Substring(0,7))" }
+          New-Item -ItemType Directory -Force dist/HaloModMenu | Out-Null
+          Copy-Item build/Release/version.dll, install.ps1, README.md dist/HaloModMenu/
+          $hash = (Get-FileHash dist/HaloModMenu/version.dll -Algorithm SHA256).Hash.ToLower()
+          "$hash  version.dll" | Set-Content -Encoding ascii dist/HaloModMenu/SHA256SUMS.txt
+          Compress-Archive -Path dist/HaloModMenu/* -DestinationPath "dist/HaloModMenu-$name.zip"
+          "ZIP=dist/HaloModMenu-$name.zip" >> $env:GITHUB_ENV
+          "DLL_SHA256=$hash" >> $env:GITHUB_ENV
+          Write-Host "version.dll SHA-256: $hash"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: HaloModMenu
+          path: ${{ env.ZIP }}
+
+      - name: Attest build provenance
+        if: github.ref_type == 'tag'
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: |
+            build/Release/version.dll
+            ${{ env.ZIP }}
+
+      - name: Publish release
+        if: github.ref_type == 'tag'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $notes = @"
+          Built by GitHub Actions from this tag's source. Supports MCC 1.3528.0.0 (campaign only). Launch MCC with anti-cheat disabled.
+
+          version.dll SHA-256: ``$env:DLL_SHA256``
+
+          Verify the build with: ``gh attestation verify version.dll --repo $env:GITHUB_REPOSITORY``
+
+          Windows Defender may flag the DLL; see the README for why and what to do.
+          "@
+          gh release create $env:GITHUB_REF_NAME $env:ZIP --title $env:GITHUB_REF_NAME --notes $notes

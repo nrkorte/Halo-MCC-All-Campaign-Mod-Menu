@@ -4,7 +4,7 @@ Last worked on 2026-10-13 (Reach reticle dot; see the end of this file). See REA
 
 ## Where things stand
 
-The mod targets Halo MCC Steam 1.3528.0.0. It's an in-game menu (open with LT + right-stick click or F6) that works across every MCC title. Halo 3, Halo: Reach, Halo: CE, Halo 2, ODST and Halo 4 have cheats; Halo 2: Anniversary multiplayer shows "not supported yet" and is out of scope (the mod is for campaigns only). You switch it on and off with `Desktop\Toggle-HaloModMenu.exe`, and anti-cheat must be off.
+The mod targets Halo MCC Steam 1.3528.0.0. It's an in-game menu (open with LT + right-stick click or F6) that works across every MCC title. Halo 3, Halo: Reach, Halo: CE, Halo 2, ODST and Halo 4 have cheats. Multiplayer (including Halo 2: Anniversary's groundhog.dll) isn't tracked at all; the mod is for campaigns only. You switch it on and off with `Desktop\Toggle-HaloModMenu.exe`, and anti-cheat must be off.
 
 ### Halo 3 cheats
 
@@ -301,7 +301,7 @@ From the user's TODO ("Change teams"). Feature bit 51 (kPlayerTeam), a "Your tea
   - **Camo while firing (confirmed working 2026-10-01):** shots and grenade throws go through 0x8EFF70, which turns camo off; its je at 0x8EFFBA now jumps straight to the "unit fired" event (0x8F0032), skipping the camo ding that made shots flicker it. The grenade throw's direct camo-off call (0x8F499A) is NOPed.
   - **Vehicle invisible walls (sphere and floor fixes confirmed working 2026-10-01):** a Banshee on Metropolis (03b_newmombasa) bounced off a plane past the bridge. It isn't collision (no BSP, instanced geometry or environment-object surface there): each sbsp has a "vehicle spherical limit" (radius +0x1C0, center +0x1C4) that pushes vehicles back in, here 240 around (-175, 320, 0). Zeroing the radius live let the Banshee through. No boundaries now zeroes it on every sbsp. The sbsp vehicle floor (+0x1C, -3 here) pushes vehicles below it up: it pinned the Banshee to the tunnel's ceiling, and lowering it live fixed that. No boundaries pushes a nonzero floor/ceiling out to -/+100000 and leaves 0 alone (0 seems to mean unset: the ceiling here is 0 and Banshees fly well above it).
   - The "infinite equipment before Envy" camo bug couldn't be reproduced on 2026-10-01; dropped unless it comes back.
-- **Scope:** campaign mods only. Halo 2: Anniversary multiplayer (groundhog.dll) is out of scope (user, 2026-10-02).
+- **Scope:** campaign mods only. Halo 2: Anniversary multiplayer (groundhog.dll) is out of scope (user, 2026-10-02); its placeholder entry and its co-op patches were removed 2026-10-13.
 - **The original long-term goal:** spawn AI squads at will during the campaign, with `ai_place` or the engine's own spawn functions.
 
 ### Housekeeping
@@ -309,7 +309,7 @@ From the user's TODO ("Change teams"). Feature bit 51 (kPlayerTeam), a "Your tea
 - **Startup crash in the NVIDIA driver (2026-10-04, once):** MCC showed "Fatal error!" at the splash screen; Windows logged the fault in nvwgf2umx.dll (NVIDIA D3D11 driver, offset 0xF2179), during HookSwapChain's throwaway D3D11 device (the log stopped after "Hooked cursor functions"). The next launch worked. If it repeats, find Present without a second device (e.g. hook after MCC's own device exists).
 - **Windows Defender (2026-10-02):** flagged the build and the installed `version.dll` as Program:Win32/Contebrew.A!ml (a machine-learning false positive) and quarantined them, so the toggle silently kept an older build. The user added exclusions for `HaloModMenuuild` and the installed `version.dll`. If a fix seems not to apply, compare the installed DLL's timestamp with the build first.
 - `Halo Mods\AlphaRing-fork` still needs to move into `Halo Mods\AlphaRing\`. It couldn't be moved while VS Code had it open.
-- HaloModMenu isn't under git yet.
+- HaloModMenu is under git (2026-10-13), pushed to https://github.com/nrkorte/Halo-MCC-All-Campaign-Mod-Menu over HTTPS (Git Credential Manager sign-in, no SSH key).
 
 **Reach rapid fire (2026-10-03, confirmed working):** the Cheat Engine code patch (three NOPs of the barrel fire-delay resets, RVAs 0x4C0B79/0x4C20AD/0x4C21DD) made every weapon rapid fire, the AI's included (reported with vehicle rapid fire on). Replaced with Halo 3's method on the game thread (main_thread.cpp RapidFire): each tick the players' weapons (rapid fire) and their vehicle parts' weapons (vehicle rapid fire) get barrel +0 (ticks since shot, int8) = 0x7F and barrel +2 (fire delay, int16) = 0; barrels at weapon +0x240, 0x34 each. The no-heat patch still covers AI weapons too.
 

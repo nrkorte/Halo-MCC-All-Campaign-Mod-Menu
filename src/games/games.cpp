@@ -19,10 +19,7 @@ namespace {
     Games::Odst g_odst;
     Games::Reach g_reach;
 
-    // Known but not modded yet.
-    Games::Game g_halo2mp("Halo 2: Anniversary MP", L"groundhog.dll", 4);
-
-    Games::Game* const kGames[] = {&g_halo1, &g_halo2, &g_halo3, &g_halo4, &g_halo2mp, &g_odst, &g_reach};
+    Games::Game* const kGames[] = {&g_halo1, &g_halo2, &g_halo3, &g_halo4, &g_odst, &g_reach};
 
     // Guards every Game's module/supported state so a title can't unload mid-Tick.
     std::mutex g_mutex;
