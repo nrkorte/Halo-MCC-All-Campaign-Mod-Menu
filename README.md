@@ -30,7 +30,7 @@ Releases on the [Releases page](../../releases) are built by GitHub Actions ([wo
 gh attestation verify version.dll --repo nrkorte/Halo-MCC-All-Campaign-Mod-Menu
 ```
 
-Unzip the release, copy `version.dll` into `mcc\binaries\win64` in your MCC folder (or use `install.ps1`), and launch with anti-cheat disabled.
+Unzip the release, run `install.ps1` from the unzipped folder (or copy `version.dll` into `mcc\binaries\win64` yourself), and launch with anti-cheat disabled.
 
 ## Build and install
 
@@ -38,11 +38,11 @@ Requires Visual Studio 2022 with the "Desktop development with C++" workload and
 
 ```
 build.bat                                  -> build\Release\version.dll
-powershell -File install.ps1 -GameDir "<MCC>\mcc\binaries\win64"   (copies it into the game folder)
-powershell -File install.ps1 -GameDir "<MCC>\mcc\binaries\win64" -Uninstall   (removes it)
+powershell -File install.ps1               (copies it into the game folder)
+powershell -File install.ps1 -Uninstall    (removes it)
 ```
 
-`-GameDir` defaults to the author's Steam library path, so pass your own. Close MCC before installing, and remove the mod before playing with anti-cheat on.
+`install.ps1` finds MCC through Steam's library list; if it can't, pass `-GameDir "<MCC>\mcc\binaries\win64"`. It works from a source checkout or from an unzipped release. Close MCC before installing, and remove the mod before playing with anti-cheat on.
 
 **Desktop toggle:** `tools\ToggleHaloModMenu\build.bat` builds `Toggle-HaloModMenu.exe` and copies it to the Desktop. Each run flips the mod:
 - **Off:** renames `version.dll` to `version.dll.disabled`.
